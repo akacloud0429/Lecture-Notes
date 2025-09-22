@@ -15,13 +15,13 @@ library(tidyverse)
 * absolute path: the full address of file on computer; cons: not portable
 ```{r collapse = TRUE, message = FALSE}
 litters_df = 
-  read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv")
+  read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv", na = c("NA",".",""))
 #setwd() is also an absolute path
 ```
 * relative path: directions to a file or folder from your current working directory; **portable**
 ```{r collapse = TRUE, message = FALSE}
 litters_df_relative = 
-  read_csv("../../data_import_examples/FAS_litters.csv")
+  read_csv("../../data_import_examples/FAS_litters.csv", na = c("NA",".",""))
 # ../..	Two directories up from current working directory
 ```
 ## Update the names of variables in `litters_df` (to remove capital and space between)
@@ -82,7 +82,6 @@ names(pulse_df)
 ```{r}
 write.csv(words_df,"../../data_import_examples/words_df") 
 ```
-
 
 
 

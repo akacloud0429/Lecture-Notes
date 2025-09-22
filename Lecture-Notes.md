@@ -31,7 +31,7 @@ library(tidyverse)
 
 ``` r
 litters_df = 
-  read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv")
+  read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv", na = c("NA",".",""))
 #setwd() is also an absolute path
 ```
 
@@ -40,7 +40,7 @@ litters_df =
 
 ``` r
 litters_df_relative = 
-  read_csv("../../data_import_examples/FAS_litters.csv")
+  read_csv("../../data_import_examples/FAS_litters.csv", na = c("NA",".",""))
 # ../.. Two directories up from current working directory
 ```
 
