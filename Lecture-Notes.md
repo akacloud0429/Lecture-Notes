@@ -8,27 +8,21 @@ Luyun Ge
   - [Update the names of variables in `litters_df` (to remove capital
     and space
     between)](#update-the-names-of-variables-in-litters_df-to-remove-capital-and-space-between)
-  - [Learning Assessment](#learning-assessment)
+  - [Learning Assessment (CSV files)](#learning-assessment-csv-files)
   - [Use function without downloading the whole
     package](#use-function-without-downloading-the-whole-package)
   - [Fixing the missing datas](#fixing-the-missing-datas)
+  - [Importing Data from EXCEL file](#importing-data-from-excel-file)
+  - [Importing Data from SAS file](#importing-data-from-sas-file)
+  - [Data Export](#data-export)
 
 # Lecture 4 (Sep.16)
+
+This lecture is about Data Wrangling - Data Import and Export
 
 ``` r
 library(tidyverse)
 ```
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.1.0     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ## Paths
 
@@ -38,14 +32,6 @@ library(tidyverse)
 ``` r
 litters_df = 
   read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv")
-## Rows: 49 Columns: 8
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (4): Group, Litter Number, GD0 weight, GD18 weight
-## dbl (4): GD of Birth, Pups born alive, Pups dead @ birth, Pups survive
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #setwd() is also an absolute path
 ```
 
@@ -55,16 +41,10 @@ litters_df =
 ``` r
 litters_df_relative = 
   read_csv("../../data_import_examples/FAS_litters.csv")
-## Rows: 49 Columns: 8
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (4): Group, Litter Number, GD0 weight, GD18 weight
-## dbl (4): GD of Birth, Pups born alive, Pups dead @ birth, Pups survive
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 # ../.. Two directories up from current working directory
 ```
+
+## Update the names of variables in `litters_df` (to remove capital and space between)
 
 ``` r
 names(litters_df)
@@ -74,8 +54,6 @@ names(litters_df)
     ## [4] "GD18 weight"       "GD of Birth"       "Pups born alive"  
     ## [7] "Pups dead @ birth" "Pups survive"
 
-## Update the names of variables in `litters_df` (to remove capital and space between)
-
 ``` r
 litters_df = 
   janitor::clean_names(litters_df)
@@ -84,31 +62,15 @@ names(litters_df)
 ## [5] "gd_of_birth"     "pups_born_alive" "pups_dead_birth" "pups_survive"
 ```
 
-## Learning Assessment
+## Learning Assessment (CSV files)
 
 Now importing the FAS_pups dataset:
 
 ``` r
 pups_df = 
   read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_pups.csv", na = c("NA",".",""),skip = 3)
-## Rows: 313 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): Litter Number
-## dbl (5): Sex, PD ears, PD eyes, PD pivot, PD walk
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 pups_df_relative = 
   read_csv("../../data_import_examples/FAS_pups.csv",na = c("NA",".",""),skip = 3)
-## Rows: 313 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): Litter Number
-## dbl (5): Sex, PD ears, PD eyes, PD pivot, PD walk
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ``` r
@@ -128,16 +90,46 @@ stats::filter
 ## Fixing the missing datas
 
 ``` r
+# na will treat "NA", ".", "" as missing values
 litters_df = 
   read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv", na = c("NA",".",""), skip = 10)
 ```
 
-    ## New names:
-    ## Rows: 39 Columns: 8
-    ## ── Column specification
-    ## ──────────────────────────────────────────────────────── Delimiter: "," chr
-    ## (2): Con8, #3/5/2/2/95 dbl (6): 28.5, NA, 20, 8...6, 0, 8...8
-    ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-    ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-    ## • `8` -> `8...6`
-    ## • `8` -> `8...8`
+## Importing Data from EXCEL file
+
+``` r
+mlb_df = 
+  readxl::read_excel("../../data_import_examples/mlb11.xlsx")
+```
+
+If we only want part of columns
+
+``` r
+words_df = 
+  readxl::read_excel("../../data_import_examples/LotR_Words.xlsx", range = "B3:D6")
+```
+
+## Importing Data from SAS file
+
+``` r
+pulse_df = 
+  haven::read_sas("../../data_import_examples/public_pulse_data.sas7bdat")
+names(pulse_df)
+## [1] "ID"           "age"          "Sex"          "BDIScore_BL"  "BDIScore_01m"
+## [6] "BDIScore_06m" "BDIScore_12m"
+```
+
+Clean the variable names:
+
+``` r
+pulse_df = janitor::clean_names(pulse_df)
+names(pulse_df)
+## [1] "id"            "age"           "sex"           "bdi_score_bl" 
+## [5] "bdi_score_01m" "bdi_score_06m" "bdi_score_12m"
+```
+
+## Data Export
+
+``` r
+write.csv(words_df,"../../data_import_examples/words_df") 
+```

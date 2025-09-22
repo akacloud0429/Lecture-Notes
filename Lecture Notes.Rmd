@@ -7,40 +7,41 @@ output:
     toc: true
 ---
 # Lecture 4 (Sep.16)
-```{r}
+This lecture is about Data Wrangling - Data Import and Export
+```{r message = FALSE}
 library(tidyverse)
 ```
 ## Paths
 * absolute path: the full address of file on computer; cons: not portable
-```{r collapse = TRUE}
+```{r collapse = TRUE, message = FALSE}
 litters_df = 
   read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv")
 #setwd() is also an absolute path
 ```
 * relative path: directions to a file or folder from your current working directory; **portable**
-```{r collapse = TRUE}
+```{r collapse = TRUE, message = FALSE}
 litters_df_relative = 
   read_csv("../../data_import_examples/FAS_litters.csv")
 # ../..	Two directories up from current working directory
 ```
+## Update the names of variables in `litters_df` (to remove capital and space between)
 ```{r}
 names(litters_df)
 ```
-## Update the names of variables in `litters_df` (to remove capital and space between)
 ```{r collapse = TRUE}
 litters_df = 
   janitor::clean_names(litters_df)
 names(litters_df)
 ```
-## Learning Assessment
+## Learning Assessment (CSV files)
 Now importing the FAS_pups dataset:
-```{r collapse = TRUE}
+```{r collapse = TRUE, message = FALSE}
 pups_df = 
   read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_pups.csv", na = c("NA",".",""),skip = 3)
 pups_df_relative = 
   read_csv("../../data_import_examples/FAS_pups.csv",na = c("NA",".",""),skip = 3)
 ```
-```{r eval = FALSE, collapse = TRUE}
+```{r eval = FALSE, collapse = TRUE, message = FALSE}
 # to view the data
 skimr::skim(litters_df)
 ```
@@ -51,8 +52,44 @@ dplyr::filter
 stats::filter
 ```
 ## Fixing the missing datas
-```{r}
+```{r message = FALSE}
+# na will treat "NA", ".", "" as missing values
 litters_df = 
   read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv", na = c("NA",".",""), skip = 10)
 ```
+## Importing Data from EXCEL file
+```{r}
+mlb_df = 
+  readxl::read_excel("../../data_import_examples/mlb11.xlsx")
+```
+If we only want part of columns
+```{r}
+words_df = 
+  readxl::read_excel("../../data_import_examples/LotR_Words.xlsx", range = "B3:D6")
+```
+## Importing Data from SAS file
+```{r collapse=TRUE}
+pulse_df = 
+  haven::read_sas("../../data_import_examples/public_pulse_data.sas7bdat")
+names(pulse_df)
+```
+Clean the variable names:
+```{r collapse=TRUE}
+pulse_df = janitor::clean_names(pulse_df)
+names(pulse_df)
+```
+## Data Export
+```{r}
+write.csv(words_df,"../../data_import_examples/words_df") 
+```
+
+
+
+
+
+
+
+
+
+
 
