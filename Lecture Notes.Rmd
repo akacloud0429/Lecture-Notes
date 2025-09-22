@@ -7,4 +7,52 @@ output:
     toc: true
 ---
 # Lecture 4 (Sep.16)
+```{r}
+library(tidyverse)
+```
+## Paths
+* absolute path: the full address of file on computer; cons: not portable
+```{r collapse = TRUE}
+litters_df = 
+  read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv")
+#setwd() is also an absolute path
+```
+* relative path: directions to a file or folder from your current working directory; **portable**
+```{r collapse = TRUE}
+litters_df_relative = 
+  read_csv("../../data_import_examples/FAS_litters.csv")
+# ../..	Two directories up from current working directory
+```
+```{r}
+names(litters_df)
+```
+## Update the names of variables in `litters_df` (to remove capital and space between)
+```{r collapse = TRUE}
+litters_df = 
+  janitor::clean_names(litters_df)
+names(litters_df)
+```
+## Learning Assessment
+Now importing the FAS_pups dataset:
+```{r collapse = TRUE}
+pups_df = 
+  read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_pups.csv", na = c("NA",".",""),skip = 3)
+pups_df_relative = 
+  read_csv("../../data_import_examples/FAS_pups.csv",na = c("NA",".",""),skip = 3)
+```
+```{r eval = FALSE, collapse = TRUE}
+# to view the data
+skimr::skim(litters_df)
+```
+## Use function without downloading the whole package
+`package`:`function`
+```{r eval = FALSE, collapse = TRUE}
+dplyr::filter
+stats::filter
+```
+## Fixing the missing datas
+```{r}
+litters_df = 
+  read_csv("~/Desktop/Fall2025/P8105 DS I/data_import_examples/FAS_litters.csv", na = c("NA",".",""), skip = 10)
+```
 
